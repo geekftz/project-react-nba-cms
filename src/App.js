@@ -1,26 +1,66 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
-function App() {
+function NoMatchExample() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/old-match">Old Match, to be redirected</Link>
+          </li>
+          <li>
+            <Link to="/will-match">Will Match</Link>
+          </li>
+          <li>
+            <Link to="/will-not-match">Will Not Match</Link>
+          </li>
+          <li>
+            <Link to="/also/will/not/match">Also Will Not Match</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Redirect from="/old-match" to="/will-match" />
+          <Route path="/will-match" component={WillMatch} />
+          <Route component={NoMatch} />
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+function Home() {
+  return (
+    <p>
+      A <code>&lt;Switch></code> renders the first child <code>&lt;Route></code>{" "}
+      that matches. A <code>&lt;Route></code> with no <code>path</code> always
+      matches.
+    </p>
+  );
+}
+
+function WillMatch() {
+  return <h3>Matched!</h3>;
+}
+
+function NoMatch({ location }) {
+  return (
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
     </div>
   );
 }
 
-export default App;
+export default NoMatchExample;
