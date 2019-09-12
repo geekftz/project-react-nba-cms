@@ -1,66 +1,56 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { Layout } from 'antd';
 
-function NoMatchExample() {
-  return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/old-match">Old Match, to be redirected</Link>
-          </li>
-          <li>
-            <Link to="/will-match">Will Match</Link>
-          </li>
-          <li>
-            <Link to="/will-not-match">Will Not Match</Link>
-          </li>
-          <li>
-            <Link to="/also/will/not/match">Also Will Not Match</Link>
-          </li>
-        </ul>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Redirect from="/old-match" to="/will-match" />
-          <Route path="/will-match" component={WillMatch} />
-          <Route component={NoMatch} />
-        </Switch>
+import SiderMenu from '@/components/sidermenu'
+import TopHeader from '@/components/topheader'
+
+import Routes from '@/routes'
+
+import './App.less'
+
+// const { Header, Sider, Content } = Layout;
+const { Content } = Layout;
+
+class App extends React.Component {
+  state = {
+    collapsed: false,
+  };
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
+  render() {
+    const auth = {
+      username: 'admin',
+      password: 'admin'
+    }
+
+    return (
+      <div className="app">
+        <Layout>
+          <SiderMenu collapsed={this.state.collapsed} />
+
+          <Layout>
+            <TopHeader collapsed={this.state.collapsed} toggle={this.toggle} />
+
+            <Content
+              style={{
+                margin: '24px 16px',
+                padding: 24,
+                background: '#fff',
+                minHeight: 280,
+              }}
+            >
+            <Routes auth={auth}/>
+            </Content>
+          </Layout>
+        </Layout>
       </div>
-    </Router>
-  );
+    );
+  }
 }
 
-function Home() {
-  return (
-    <p>
-      A <code>&lt;Switch></code> renders the first child <code>&lt;Route></code>{" "}
-      that matches. A <code>&lt;Route></code> with no <code>path</code> always
-      matches.
-    </p>
-  );
-}
-
-function WillMatch() {
-  return <h3>Matched!</h3>;
-}
-
-function NoMatch({ location }) {
-  return (
-    <div>
-      <h3>
-        No match for <code>{location.pathname}</code>
-      </h3>
-    </div>
-  );
-}
-
-export default NoMatchExample;
+export default App

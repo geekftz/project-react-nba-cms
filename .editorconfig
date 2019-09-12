@@ -1,0 +1,26 @@
+# top-most EditorConfig file
+root = true
+[*]
+Unix-style newlines with a newline ending every file
+end_of_line = lf
+[*.{js,py}]
+# 字符编码集
+charset = utf-8
+# 缩进使用 tab 或者 space
+indent_style = space
+# 缩进为space时缩进字符数
+indent_size = 2
+# 是否将尾行空格自动删除
+trim_trailing_whitespace = true
+# 是否使文件以一个空白行结尾
+insert_final_newline = true
+# 编码区字符数(宽度)限定 结合eslint max-len WebStorm支持 VSCode不支持
+max_line_length = 100
+# 引号样式 single double auto
+quote_type = single
+# 花括号是否另起一行
+#curly_bracket_next_line = true
+# 操作符两边是否有空格 true false hybrid
+spaces_around_operators = true
+# 括号两边是否有空格 none inside outside both
+#spaces_around_brackets = both
