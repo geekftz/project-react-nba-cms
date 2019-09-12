@@ -2,6 +2,8 @@ import React from "react";
 
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
+import { requestLogin } from '@/api/login'
+
 import './index.less'
 
 class NormalLoginForm extends React.Component {
@@ -14,10 +16,12 @@ class NormalLoginForm extends React.Component {
         
         let data = {
           username,
-          values
+          password
         }
-        
-        
+
+        requestLogin(data).then(res => {
+          console.log(res);
+        })
       }
     });
   };
