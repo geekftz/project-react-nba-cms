@@ -5,10 +5,8 @@ import SiderMenu from '@/components/sidermenu'
 import TopHeader from '@/components/topheader'
 
 import Routes from '@/routes'
-
 import './App.less'
 
-// const { Header, Sider, Content } = Layout;
 const { Content } = Layout;
 
 class App extends React.Component {
@@ -21,6 +19,14 @@ class App extends React.Component {
       collapsed: !this.state.collapsed,
     });
   };
+
+  componentDidMount() {
+    // let userToken = localStorage.getItem('userToken')
+    
+    // if (!userToken) {
+    //   this.props.history.push('/login')
+    // }
+  }
 
   render() {
     const auth = {

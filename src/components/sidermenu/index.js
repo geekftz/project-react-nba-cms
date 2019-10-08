@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { Layout, Menu, Icon } from 'antd';
 const { Sider } = Layout;
 
 
-class SiderMenu extends React.Component {
+class SiderMenu extends Component {
   render() {
     return (
       <Sider trigger={null} collapsible collapsed={this.props.collapsed}>

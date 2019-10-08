@@ -11,9 +11,8 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const { username, password, remember } = values
-        
+
         let data = {
           username,
           password
@@ -21,10 +20,32 @@ class NormalLoginForm extends React.Component {
 
         requestLogin(data).then(res => {
           console.log(res);
+
+          let { retCode, userToken } = res
+          localStorage.setItem('userToken', userToken)
+
+          if (retCode === 0) {
+            if (remember) {
+              localStorage.setItem('username', username)
+              localStorage.setItem('password', password)
+            } else {
+              localStorage.removeItem('username')
+              localStorage.removeItem('password')
+            }
+
+            this.props.history.push('/app');
+          }
         })
       }
     });
   };
+
+  componentDidMount() {
+    let username = localStorage.getItem('username')
+    let password = localStorage.getItem('password')
+
+    this.props.form.setFieldsValue({ username, password });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -59,7 +80,7 @@ class NormalLoginForm extends React.Component {
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
               initialValue: true,
-            })(<Checkbox>Remember me</Checkbox>)}
+            })(<Checkbox className="login-form-remember">Remember me</Checkbox>)}
             <a className="login-form-forgot" href="/login">
               Forgot password
             </a>

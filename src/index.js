@@ -14,11 +14,13 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <Router>
     <Switch>
-      <Route exact path="/" render={() => <Redirect to="/app" push />} />
+      <Route exact path="/" render={() => localStorage.getItem('userToken') ? <Redirect to="/app" push /> : <Redirect to="/login" push />} />
       <Route path="/app" component={App} />
-      <Route path="/404" component={Error404} />
-      <Route path="/login" component={Login} />
-      <Route component={Error404} />
+      <Route exact path="/404" component={Error404} />
+      <Route exact path="/login" component={Login} />
+      <Route exact>
+        <Redirect to="/404" />
+      </Route>
     </Switch>
   </Router>
   , document.getElementById('root'));
