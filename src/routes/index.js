@@ -45,12 +45,12 @@ const TodoView = observer(({ todo }) =>
   </li>
 );
 
-const sto = new TodoList();
+const store = new TodoList();
 
-// sto.todos.push(
-//   new Todo("Get Coffee"),
-//   new Todo("Write simpler code")
-// );
+store.todos.push(
+  new Todo("Get Coffee"),
+  new Todo("Write simpler code")
+);
 
 class Routes extends Component {
 
@@ -60,7 +60,7 @@ class Routes extends Component {
         <h1>
           Routes
         </h1>
-        <TodoListView todoList={sto} />
+        <TodoListView todoList={store} />
       </div>
     )
   }
