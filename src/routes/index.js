@@ -12,6 +12,7 @@ class Routes extends Component {
         <h1>
           Routes
         </h1>
+        test dev
       </div>
     )
   }
