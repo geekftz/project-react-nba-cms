@@ -12,7 +12,6 @@ class Routes extends Component {
         <h1>
           Routes
         </h1>
-        <TodoListView todoList={store} />
       </div>
     )
   }
