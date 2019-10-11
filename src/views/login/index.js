@@ -21,6 +21,8 @@ class NormalLoginForm extends React.Component {
         requestLogin(data).then(res => {
           console.log(res);
 
+          console.log('dev conflict');
+          
           let { retCode, userToken } = res
           localStorage.setItem('userToken', userToken)
 
