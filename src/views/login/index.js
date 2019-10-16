@@ -8,6 +8,16 @@ import './index.less'
 import { setLocalStore, getLocalStore, removeLocalStore } from '@/utils/common.js'
 
 class NormalLoginForm extends React.Component {
+  componentDidMount() {
+    let { username, password, usertoken } = getLocalStore(['username', 'password', 'usertoken'])
+
+    if (username && password) {
+      this.props.form.setFieldsValue({ username, password });
+    }
+    
+    this.props.history.push(`${usertoken? '/app/nba/team' : '/login'}`)
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -16,14 +26,15 @@ class NormalLoginForm extends React.Component {
 
         if (username === 'admin' && password === '123456') {
             if (remember) {
-              setLocalStore(['username', 'password'], [username, password])
+              setLocalStore(['username', 'password', 'usertoken'], [username, password, 'auth-token'])
             } else {
+              setLocalStore(['usertoken'], ['auth-token'])
               removeLocalStore(['username', 'password'])
             }
 
             message.success('登陆成功')
             
-            this.props.history.push('/app');
+            this.props.history.push('/app/nba/team');
           } else {
             message.error('登陆失败')
         }
@@ -51,11 +62,6 @@ class NormalLoginForm extends React.Component {
       }
     });
   };
-
-  componentDidMount() {
-    let { username, password } = getLocalStore(['username', 'password'])
-    this.props.form.setFieldsValue({ username, password });
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
