@@ -6,6 +6,10 @@ import TopHeader from '@/components/topheader'
 
 import Routes from '@/routes'
 import './App.less'
+import '@/styles/base.less'
+
+import { getLocalStore } from '@/utils/common.js'
+
 
 const { Content } = Layout;
 
@@ -21,19 +25,14 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    // let userToken = localStorage.getItem('userToken')
+    let { usertoken } = getLocalStore(['usertoken'])
     
-    // if (!userToken) {
-    //   this.props.history.push('/login')
-    // }
+    if (!usertoken) {
+      this.props.history.push('/login')
+    }
   }
 
   render() {
-    const auth = {
-      username: 'admin',
-      password: 'admin'
-    }
-
     return (
       <div className="app">
         <Layout>
@@ -50,7 +49,7 @@ class App extends React.Component {
                 minHeight: 280,
               }}
             >
-            <Routes auth={auth}/>
+            <Routes />
             </Content>
           </Layout>
         </Layout>

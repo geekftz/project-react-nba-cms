@@ -1,51 +1,67 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 
-import { requestLogin } from '@/api/login'
-
+// import { requestLogin } from '@/api/login'
 
 import './index.less'
 
+import { setLocalStore, getLocalStore, removeLocalStore } from '@/utils/common.js'
+
 class NormalLoginForm extends React.Component {
+  componentDidMount() {
+    let { username, password, usertoken } = getLocalStore(['username', 'password', 'usertoken'])
+
+    if (username && password) {
+      this.props.form.setFieldsValue({ username, password });
+    }
+    
+    this.props.history.push(`${usertoken? '/app/nba/team' : '/login'}`)
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { username, password, remember } = values
 
-        let data = {
-          username,
-          password
-        }
-
-        requestLogin(data).then(res => {
-          console.log(res);
-
-          let { retCode, userToken } = res
-          localStorage.setItem('userToken', userToken)
-
-          if (retCode === 0) {
+        if (username === 'admin' && password === '123456') {
             if (remember) {
-              localStorage.setItem('username', username)
-              localStorage.setItem('password', password)
+              setLocalStore(['username', 'password', 'usertoken'], [username, password, 'auth-token'])
             } else {
-              localStorage.removeItem('username')
-              localStorage.removeItem('password')
+              setLocalStore(['usertoken'], ['auth-token'])
+              removeLocalStore(['username', 'password'])
             }
 
-            this.props.history.push('/app');
-          }
-        })
+            message.success('登陆成功')
+            
+            this.props.history.push('/app/nba/team');
+          } else {
+            message.error('登陆失败')
+        }
+
+        // let data = {
+        //   username,
+        //   password
+        // }
+
+        // requestLogin(data).then(res => {
+          
+        //   let { retCode, userToken } = res
+        //   setLocalStore(['userToken'], [userToken])
+
+        //   if (retCode === 0) {
+        //     if (remember) {
+        //       setLocalStore(['username', 'password'], [username, password])
+        //     } else {
+        //       removeLocalStore(['username', 'password'])
+        //     }
+
+        //     this.props.history.push('/app');
+        //   }
+        // })
       }
     });
   };
-
-  componentDidMount() {
-    let username = localStorage.getItem('username')
-    let password = localStorage.getItem('password')
-
-    this.props.form.setFieldsValue({ username, password });
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
